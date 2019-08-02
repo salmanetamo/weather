@@ -5,35 +5,46 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+/**
+ * This class stores information about the different locations whose weather info is displayed.
+ *
+ * @author Salmane Tamo | Student ID: S1719038
+ *
+ * */
 public class Location implements Parcelable {
     private String name;
-    private String country;
-    private int temperature;
+    private String countryCode;
+    private String longitude;
+    private String latitude;
+    private Location nextLocation;
+    private Day[] days;
 
-    public Location(String name, String country, int temperature){
+    public Location(String name, String countryCode, String longitude, String latitude, Location nextLocation, Day[] days){
         this.name = name;
-        this.country = country;
-        this.temperature = temperature;
+        this.countryCode = countryCode;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.nextLocation = nextLocation;
+        this.days = days;
+    }
+
+    public Location(String name, String countryCode, String longitude, String latitude, Day[] days){
+        this.name = name;
+        this.countryCode = countryCode;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.nextLocation = null;
+        this.days = days;
     }
 
     private Location(Parcel source){
         this.name = source.readString();
-        this.country = source.readString();
-        this.temperature = source.readInt();
-    }
-
-    public static ArrayList<Location> getLocations(){
-        ArrayList<Location> locations = new ArrayList<>();
-        locations.add(new Location("Niamey Yantala", "Niger", 45));
-        locations.add(new Location("Tripoli, Khadafi's country", "Lybia", 49));
-        locations.add(new Location("Helsinki, Casa de Papel", "Finland", -18));
-        locations.add(new Location("Ouagadougou Tiendrebeogo", "Burkina", 3));
-        locations.add(new Location("Ottawa Montreal", "Canada", -8));
-        locations.add(new Location("Antananarivo", "Madagascar", -18));
-        locations.add(new Location("Port Louis", "Mauritius", 22));
-        locations.add(new Location("Mombasa", "Kenya", 32));
-
-        return locations;
+        this.countryCode = source.readString();
+        this.longitude = source.readString();
+        this.latitude = source.readString();
+        this.nextLocation = source.readParcelable(this.getClass().getClassLoader());
+        this.days = new Day[3];
+        source.readTypedArray(days, Day.CREATOR);
     }
 
     public String getName() {
@@ -44,20 +55,44 @@ public class Location implements Parcelable {
         this.name = name;
     }
 
-    public String getCountry() {
-        return country;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
-    public int getTemperature() {
-        return temperature;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setTemperature(int temperature) {
-        this.temperature = temperature;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public Day[] getDays() {
+        return days;
+    }
+
+    public void setDays(Day[] days) {
+        this.days = days;
+    }
+
+    public Location getNextLocation() {
+        return nextLocation;
+    }
+
+    public void setNextLocation(Location nextLocation) {
+        this.nextLocation = nextLocation;
     }
 
     /**
@@ -74,8 +109,11 @@ public class Location implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
-        dest.writeString(this.country);
-        dest.writeInt(this.temperature);
+        dest.writeString(this.countryCode);
+        dest.writeString(this.longitude);
+        dest.writeString(this.latitude);
+        dest.writeParcelable(this.nextLocation, 0);
+        dest.writeTypedArray(this.days, 0);
     }
 
     //Static variable used by Parcelable interface

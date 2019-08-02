@@ -5,6 +5,12 @@ import android.os.Bundle;
 
 import com.salmane.weather.R;
 
+/**
+ *
+ * @author Salmane Tamo | Student ID: S1719038
+ *
+ *
+ * */
 public class MainActivity extends AppCompatActivity {
 
     @Override

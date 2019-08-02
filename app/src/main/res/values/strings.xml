@@ -1,4 +1,21 @@
 <resources>
     <string name="app_name">Weather</string>
+    <string name="action_settings">Settings</string>
     <string name="text_footer">\u00a9 Salmane Tamo | S1719038</string>
+
+    <!--Buttons-->
+    <string name="next_location">Next Location</string>
+    <string name="next_day">Next Day</string>
+    <string name="previous_day">Previous Day</string>
+    <string name="see_more">See more</string>
+
+    <!--Labels-->
+    <string name="wind_speed">Wind Speed</string>
+    <string name="wind_direction">Wind Direction</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="uv_risk">UV risk</string>
+    <string name="visibility">UV risk</string>
+    <string name="max_temperature">Max temperature</string>
+    <string name="min_temperature">Min temperature</string>
 </resources>

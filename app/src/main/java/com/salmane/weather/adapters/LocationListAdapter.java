@@ -9,19 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.salmane.weather.R;
 import com.salmane.weather.activities.LocationActivity;
-import com.salmane.weather.activities.LocationListActivity;
 import com.salmane.weather.models.Location;
 
 import java.util.List;
 
 /**
+ * Adapter class to display locations in RecyclerView for LocationListActivity.
+ *
  * @author Salmane Tamo | Student ID: S1719038
  *
- * Adapter class to display elements in RecyclerView.
  * */
 public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.ViewHolder> {
 
@@ -33,7 +32,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView textLocationName;
-        public TextView textCountry;
+        public TextView textCountryLongLat;
         public TextView textTemperature;
         public ImageView imageBackgroundListItem;
         private Context context;
@@ -43,7 +42,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
 
             this.context = context;
             textLocationName = (TextView) itemView.findViewById(R.id.text_location_name);
-            textCountry = (TextView) itemView.findViewById(R.id.text_country);
+            textCountryLongLat = (TextView) itemView.findViewById(R.id.text_country_long_lat);
             textTemperature = (TextView) itemView.findViewById(R.id.text_temperature);
             imageBackgroundListItem = (ImageView) itemView.findViewById(R.id.image_background_list_item);
 
@@ -55,8 +54,6 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
             int position = getAdapterPosition();
             if(position != RecyclerView.NO_POSITION){
                 Location location = mLocations.get(position);
-                System.out.println(location.getName() + "clicked");
-                Toast.makeText(context, location.getName() + "clicked", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(this.context, LocationActivity.class);
 
@@ -85,18 +82,22 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         TextView textLocationName = (TextView) viewHolder.textLocationName;
         textLocationName.setText(location.getName());
 
-        TextView textCountry = (TextView) viewHolder.textCountry;
-        textCountry.setText(location.getCountry());
+        TextView textCountry = (TextView) viewHolder.textCountryLongLat;
+        textCountry.setText(location.getCountryCode() +
+                ", Long: " + location.getLongitude() +
+                ", Lat: " + location.getLatitude());
 
         TextView textTemperature = (TextView) viewHolder.textTemperature;
-        textTemperature.setText("" + location.getTemperature() + "\u2103");
+        textTemperature.setText(location.getDays()[0].getMinTemperature());
 
         ImageView imageBackgroundListItem = (ImageView) viewHolder.imageBackgroundListItem;
-        if(location.getCountry() == "Niger" || location.getCountry() == "Burkina" ){
+        String minTempString = location.getDays()[0].getMinTemperature();
+        int minTemp = Integer.parseInt(minTempString.substring(0, minTempString.length() - 2));
+        if(minTemp > 25){
             imageBackgroundListItem.setBackgroundResource(R.drawable.sunny);
-        } else if (location.getCountry() == "Canada" || location.getCountry() == "Finland" ){
+        } else if (minTemp < 15){
             imageBackgroundListItem.setBackgroundResource(R.drawable.snowy);
-        } else if(location.getCountry() == "Lybia" || location.getCountry() == "Mauritius" ){
+        } else if(minTemp < 25 && minTemp > 15){
             imageBackgroundListItem.setBackgroundResource(R.drawable.rainy);
         } else {
             imageBackgroundListItem.setBackgroundResource(R.drawable.cloudy);
