@@ -74,6 +74,7 @@ public class FragmentDay extends Fragment implements View.OnClickListener {
         textPressure.setText(day.getPressure());
 
         imageDescription = (ImageView) view.findViewById(R.id.image_description);
+        System.out.println("url of image " +day.getImageUrl() );
         new DownloadImageTask(imageDescription).execute(day.getImageUrl());
 
         // Inflate the layout for this fragment
@@ -102,8 +103,8 @@ public class FragmentDay extends Fragment implements View.OnClickListener {
             if(result == null){
                 result = ((BitmapDrawable) getResources().getDrawable(R.drawable.no_image, getContext().getTheme())).getBitmap();
             }
-
-            Bitmap imageRounded = Bitmap.createBitmap(result.getWidth(), result.getHeight(), result.getConfig());
+            Bitmap.Config config = result.getConfig() != null ? result.getConfig() : Bitmap.Config.ARGB_8888;
+            Bitmap imageRounded = Bitmap.createBitmap(result.getWidth(), result.getHeight(), config);
             Canvas canvas = new Canvas(imageRounded);
             Paint paint = new Paint();
             paint.setAntiAlias(true);

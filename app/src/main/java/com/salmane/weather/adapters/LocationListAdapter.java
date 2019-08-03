@@ -94,13 +94,13 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         String minTempString = location.getDays()[0].getMinTemperature();
         int minTemp = Integer.parseInt(minTempString.substring(0, minTempString.length() - 2));
         if(minTemp > 25){
-            imageBackgroundListItem.setBackgroundResource(R.drawable.sunny);
+            imageBackgroundListItem.setBackgroundResource(R.drawable.very_high);
         } else if (minTemp < 15){
-            imageBackgroundListItem.setBackgroundResource(R.drawable.snowy);
+            imageBackgroundListItem.setBackgroundResource(R.drawable.low);
         } else if(minTemp < 25 && minTemp > 15){
-            imageBackgroundListItem.setBackgroundResource(R.drawable.rainy);
+            imageBackgroundListItem.setBackgroundResource(R.drawable.medium_high);
         } else {
-            imageBackgroundListItem.setBackgroundResource(R.drawable.cloudy);
+            imageBackgroundListItem.setBackgroundResource(R.drawable.high);
         }
     }
 
